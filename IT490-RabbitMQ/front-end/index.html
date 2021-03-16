@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h2>Welcome to the League of Legends API</h2>
+</div>
+<div class="row">
+    <a href="/secret">Here is a route that requires authentication.</a>
+</div>
+
+<h2>Player Data</h2>
+<form method="post">
+    <div class="form-group">
+        <label for="region">Region Name</label>
+        <input type="region" name="region" class="form-control" id="region" placeholder="Enter Region">
+    </div>
+    <div class="form-group">
+        <label for="player">Player Name</label>
+        <input type="player" name="player" class="form-control" id="player" placeholder="Enter Player Name">
+    </div>
+	<div class="form-group">
+        <label for="apikey">LoL API Key</label>
+        <input type="apikey" name="apikey" class="form-control" id="apikey" placeholder="Enter API Key">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}
+
+
+
+
