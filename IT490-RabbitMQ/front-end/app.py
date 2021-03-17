@@ -85,16 +85,44 @@ def requestPlayerData(region, player, apikey):
     #Here I return the JSON we just got.
     return response.json()
     
+# This is my code ;3
+def requestRankedData(region, ID, APIKey):
+    URL = "https://" + region + ".api.riotgames.com/lol/league/v4/entries/by-summoner/" + ID + "?api_key=" + APIKey
+    print(URL)
+    print('\n')
+    response = requests.get(URL)
+    return response.json()
+    
 # Experimenting =3
 # $tag::index[]
 @app.route('/', methods=['GET', 'POST'])
-def index():
+def index1():
     if request.method == 'POST':
+        # Get Player Data
         region = request.form['region']
         player = request.form['player']
         apikey = request.form['apikey']
-        playerDataURL = requestPlayerData(region, player, apikey) 
-        print(playerDataURL)
+        playerDataURL = requestPlayerData(region, player, apikey)
+        ID = playerDataURL['id']
+        accountId = playerDataURL['accountId']
+        puuid = playerDataURL['puuid']
+        summonerLevel = playerDataURL['summonerLevel']
+        
+        # Get Ranked Data
+        rankedData = requestRankedData(region, ID, apikey)
+        tier = rankedData[0]['tier']
+        rank = rankedData[0]['rank']
+        leaguePoints = rankedData[0]['leaguePoints']
+        
+        # Send everything to playerResults.html
+        return render_template("playerResults.html", 
+            pid = ID,
+            acctID = accountId,
+            puid = puuid,
+            level = summonerLevel,
+            tr = tier, 
+            rk = rank, 
+            lp = leaguePoints)
         
 # end::index[]
 
