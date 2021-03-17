@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h2>Welcome to Vanshul's Project©</h2>
+</div>
+<div class="row">
+    <a href="/secret">Here is a route that requires authentication.</a>
+</div>
+
+<h2>Player Data</h2>
+<p>
+	<h1>Player</h1><br>
+	Player ID : {{pid}}<br>
+	Account ID : {{acctID}}<br>
+	Player User ID : {{pid}}<br>
+	Summoner Level : {{level}}<br>
+	<br>
+	<h1>Ranked Data</h1>
+	Tier Rank : {{tr}}<br>
+	Rank No. : {{rk}}<br>
+	League Points : {{lp}}<br>
+</p>
+
+{% endblock %}
+
+
+
+
