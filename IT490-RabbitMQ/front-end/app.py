@@ -5,6 +5,7 @@ import logging
 import messaging
 import os
 import requests
+import datetime
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY'] 
@@ -92,6 +93,14 @@ def requestRankedData(region, ID, APIKey):
     print('\n')
     response = requests.get(URL)
     return response.json()
+
+# Get Spectator Data (Players that are currently in a game)    
+def requestSpectatorData(region, ID, APIKey):
+    URL = "https://" + region + ".api.riotgames.com/lol/spectator/v4/active-games/by-summoner/" + ID + "?api_key=" + APIKey
+    print(URL)
+    print('/n')
+    response = requests.get(URL)
+    return response.json()
     
 # Experimenting =3
 # $tag::index[]
@@ -99,6 +108,7 @@ def requestRankedData(region, ID, APIKey):
 def index1():
     if request.method == 'POST':
         # Get Player Data
+        playerDataResponseCode = 200
         region = request.form['region']
         player = request.form['player']
         apikey = request.form['apikey']
@@ -107,23 +117,102 @@ def index1():
         accountId = playerDataURL['accountId']
         puuid = playerDataURL['puuid']
         summonerLevel = playerDataURL['summonerLevel']
+        #/End Player Data
         
-        # Get Ranked Data
+        # Get Ranked Data (League V4)
+        rankedDataResponseCode = 200
         rankedData = requestRankedData(region, ID, apikey)
-        tier = rankedData[0]['tier']
-        rank = rankedData[0]['rank']
-        leaguePoints = rankedData[0]['leaguePoints']
         
+        try:
+            if rankedData == []:
+                rankedDataResponseCode = 0
+            else:
+                tier = rankedData[0]['tier']
+                rank = rankedData[0]['rank']
+                leaguePoints = rankedData[0]['leaguePoints']
+        except:
+            print('There was an error requesting ranked data')
+            
+        #/End Get Ranked Data
+        
+        # Spectator Data (Spectator V4)
+        spectatorDataResponseCode = 200
+        redTeam = {}
+        blueTeam = {}
+        spectatorData = requestSpectatorData(region, ID, apikey)
+        
+        try:
+            if spectatorData['status']['status_code'] == 404:
+                spectatorDataResponseCode = spectatorData['status']['status_code']
+        except:
+            for i in range(10):
+                summonerName = spectatorData['participants'][i]['summonerName']
+                teamId = spectatorData['participants'][i]['teamId']
+                championId = spectatorData['participants'][i]['championId']
+                gameLength = str(datetime.timedelta(seconds=spectatorData['gameLength']+150))
+                gameMode = spectatorData['gameMode']
+                gameMap = ""
+                  
+                if(teamId == 100):
+                    blueTeam[summonerName] = championId
+                else:
+                    redTeam[summonerName] = championId
+            
+                if(gameMode == "CLASSIC"):
+                    gameMap = "Game Map : " + "Summoner's Rift"
+                else:
+                    gameMap = "Game Map : " + "Howling Abyss"
+        #/End Spectator Data
+            
         # Send everything to playerResults.html
-        return render_template("playerResults.html", 
-            pid = ID,
-            acctID = accountId,
-            puid = puuid,
-            level = summonerLevel,
-            tr = tier, 
-            rk = rank, 
-            lp = leaguePoints)
-        
+        #  If there is a player, they are Ranked, BUT they are not currently in a game
+        if playerDataResponseCode == 200 and rankedDataResponseCode == 200 and spectatorDataResponseCode == 404:
+            return render_template("playerResults.html", 
+                pid = "Player ID : " + ID,
+                acctID = "Account ID : " + accountId,
+                puid = "Player Universely Unique Identifier : " + puuid,
+                level = "Summoner Level : " + str(summonerLevel),
+                tr = "Tier Rank : " + tier, 
+                rk = rank, 
+                lp = "LP : " + str(leaguePoints),
+                spectatorError = "Player is not currently in a game: Error " + str(spectatorDataResponseCode))
+        #  If there is a player, they are Ranked, they are currently in a game
+        elif playerDataResponseCode == 200 and rankedDataResponseCode == 200 and spectatorDataResponseCode == 200:
+            return render_template("playerResults.html", 
+                pid = "Player ID : " + ID,
+                acctID = "Account ID : " + accountId,
+                puid = "Player Universely Unique Identifier : " + puuid,
+                level = "Summoner Level : " + str(summonerLevel),
+                tr = "Tier Rank : " +  tier, 
+                rk = rank, 
+                lp = "LP : " + str(leaguePoints),
+                sN = "Summoner Name : " + summonerName,
+                gL = "Current Game Time : " + gameLength,
+                gM = "Map : " + gameMap,
+                rT = "Red Team : " + str(redTeam),
+                bT = "Blue Team : " + str(blueTeam))
+        #  If there is a player, they are NOT Ranked, they are currently in a game
+        elif playerDataResponseCode == 200 and rankedDataResponseCode == 0 and spectatorDataResponseCode == 200:
+            return render_template("playerResults.html", 
+                pid = "Player ID : " + ID,
+                acctID = "Account ID : " + accountId,
+                puid = "Player Universely Unique Identifier : " + puuid,
+                level = "Summoner Level : " + str(summonerLevel),
+                rankedError = "Player is not ranked : Error "+ str(rankedDataResponseCode),
+                sN = "Summoner Name : " + summonerName,
+                gL = "Current Game Time : " + gameLength,
+                gM = "Map : " + gameMap,
+                rT = "Red Team : " + str(redTeam),
+                bT = "Blue Team : " + str(blueTeam))
+        #  If there is a player, they are NOT Ranked, they are NOT currently in a game
+        elif playerDataResponseCode == 200 and rankedDataResponseCode == 0 and spectatorDataResponseCode == 404:
+            return render_template("playerResults.html", 
+                pid = "Player ID : " + ID,
+                acctID = "Account ID : " + accountId,
+                puid = "Player Universely Unique Identifier : " + puuid,
+                level = "Summoner Level : " + str(summonerLevel),
+                rankedError = "Player is not in ranked : Error " + str(rankedDataResponseCode),
+                spectatorError = "Player is not currently in a game: Error " + str(spectatorDataResponseCode))               
 # end::index[]
 
 @app.route('/logout')

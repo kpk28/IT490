@@ -68,7 +68,7 @@ while True:
         postgres_password = os.environ['POSTGRES_PASSWORD']
         conn = psycopg2.connect(
             host='database',
-            database='example',
+            database='postgres',
             user='postgres',
             password=postgres_password
         )
