@@ -4,12 +4,12 @@
 
 {% block content %}
 <div class="row">
-    <h2>RIOT Super Search =3 ©</h2>
+    <h2>League Lookup</h2>
 </div>
 
 <p>
-	<h1>Player Data</h1>
-	{{pid}}<br>{{acctID}}<br>{{puid}}<br>{{level}}<br>
+	<h1>Player Data for {{pN}}</h1>
+	{{playerDataError}}<br>{{pid}}<br>{{acctID}}<br>{{puid}}<br>{{level}}<br>
 	<br>
 	<h1>Ranked Data</h1>
 	{{rankedError}}<br>{{tr}} {{rk}}<br>{{lp}}<br>
