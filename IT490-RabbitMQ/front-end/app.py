@@ -6,6 +6,8 @@ import messaging
 import os
 import requests
 import datetime
+import json 
+from urllib.request import urlopen
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY'] 
@@ -102,7 +104,15 @@ def requestSpectatorData(region, ID, APIKey):
     response = requests.get(URL)
     return response.json()
     
+
+# Requesting from Data Dragon
+def champ_name(champ_id, dictionary):
+        for item in list(dictionary["data"].keys()):
+                if int(dictionary["data"][item]["key"]) == int(champ_id):
+                        return item
+        return "champion does not exist"
 # Experimenting =3
+    
 # $tag::index[]
 @app.route('/', methods=['GET', 'POST'])
 def index1():
@@ -149,14 +159,18 @@ def index1():
                 summonerName = spectatorData['participants'][i]['summonerName']
                 teamId = spectatorData['participants'][i]['teamId']
                 championId = spectatorData['participants'][i]['championId']
+                url = "https://ddragon.leagueoflegends.com/cdn/11.6.1/data/en_US/champion.json"
+                json_url = urlopen(url)
+                data = json.loads(json_url.read())
+                championName = champ_name(championId, data)
                 gameLength = str(datetime.timedelta(seconds=spectatorData['gameLength']+150))
                 gameMode = spectatorData['gameMode']
                 gameMap = ""
                   
                 if(teamId == 100):
-                    blueTeam[summonerName] = championId
+                    blueTeam[summonerName] = championName
                 else:
-                    redTeam[summonerName] = championId
+                    redTeam[summonerName] = championName
             
                 if(gameMode == "CLASSIC"):
                     gameMap = "Game Map : " + "Summoner's Rift"
@@ -187,8 +201,8 @@ def index1():
                 rk = rank, 
                 lp = "LP : " + str(leaguePoints),
                 sN = "Summoner Name : " + summonerName,
-                gL = "Current Game Time : " + gameLength,
-                gM = "Map : " + gameMap,
+                gL = "Current Game Time : ~" + gameLength,
+                gM = gameMap,
                 rT = "Red Team : " + str(redTeam),
                 bT = "Blue Team : " + str(blueTeam))
         #  If there is a player, they are NOT Ranked, they are currently in a game
@@ -200,8 +214,8 @@ def index1():
                 level = "Summoner Level : " + str(summonerLevel),
                 rankedError = "Player is not ranked : Error "+ str(rankedDataResponseCode),
                 sN = "Summoner Name : " + summonerName,
-                gL = "Current Game Time : " + gameLength,
-                gM = "Map : " + gameMap,
+                gL = "Current Game Time : ~" + gameLength,
+                gM = gameMap,
                 rT = "Red Team : " + str(redTeam),
                 bT = "Blue Team : " + str(blueTeam))
         #  If there is a player, they are NOT Ranked, they are NOT currently in a game
@@ -214,6 +228,7 @@ def index1():
                 rankedError = "Player is not in ranked : Error " + str(rankedDataResponseCode),
                 spectatorError = "Player is not currently in a game: Error " + str(spectatorDataResponseCode))               
 # end::index[]
+
 
 @app.route('/logout')
 def logout():
