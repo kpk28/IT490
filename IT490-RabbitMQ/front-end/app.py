@@ -83,9 +83,7 @@ def requestPlayerData(region, player, apikey):
     # Tailored URL using given input
     URL = "https://" + region + ".api.riotgames.com/lol/summoner/v4/summoners/by-name/" + player + "?api_key=" + apikey
     print(URL)
-    #requests.get is a function given to us my our import "requests". It basically goes to the URL we made and gives us back a JSON.
     response = requests.get(URL)
-    #Here I return the JSON we just got.
     return response.json()
     
 # Get Ranked Data
@@ -147,9 +145,20 @@ def index1():
             if rankedData == []:
                 rankedDataResponseCode = 0
             else:
-                tier = rankedData[0]['tier']
-                rank = rankedData[0]['rank']
-                leaguePoints = rankedData[0]['leaguePoints']
+                if rankedData[0]['queueType'] == "RANKED_FLEX_SR":
+                    tier1 = rankedData[0]['tier']
+                    rank1 = rankedData[0]['rank']
+                    tier2 = rankedData[1]['tier']
+                    rank2 = rankedData[1]['rank']
+                    leaguePoints1 = rankedData[0]['leaguePoints']
+                    leaguePoints2 = rankedData[1]['leaguePoints']
+                else:
+                    tier1 = 'Not Ranked'
+                    rank1 = ''
+                    tier2 = rankedData[0]['tier']
+                    rank2 = rankedData[0]['rank']
+                    leaguePoints1 = 'Not Ranked'
+                    leaguePoints2 = rankedData[0]['leaguePoints']
         except:
             print('There was an error requesting ranked data')
             
@@ -197,9 +206,12 @@ def index1():
                 acctID = "Account ID : " + accountId,
                 puid = "Player Universely Unique Identifier : " + puuid,
                 level = "Summoner Level : " + str(summonerLevel),
-                tr = "Tier Rank : " + tier, 
-                rk = rank, 
-                lp = "LP : " + str(leaguePoints),
+                tr1 = "Tier Rank for Flex: " + tier1, 
+                rk1 = rank1, 
+                tr2 = "Tier Rank for Solo/Duo: " + tier2, 
+                rk2 = rank2, 
+                lp1 = "LP : " + str(leaguePoints1),
+                lp2 = "LP : " + str(leaguePoints2),
                 pN = playerName,
                 spectatorError = "Player is not currently in a game: Error " + str(spectatorDataResponseCode))
         #  If there is a player, they are Ranked, they are currently in a game
@@ -209,9 +221,12 @@ def index1():
                 acctID = "Account ID : " + accountId,
                 puid = "Player Universely Unique Identifier : " + puuid,
                 level = "Summoner Level : " + str(summonerLevel),
-                tr = "Tier Rank : " +  tier, 
-                rk = rank, 
-                lp = "LP : " + str(leaguePoints),
+                tr1 = "Tier Rank for Flex: " + tier1, 
+                rk1 = rank1, 
+                tr2 = "Tier Rank for Solo/Duo: " + tier2, 
+                rk2 = rank2,  
+                lp1 = "LP : " + str(leaguePoints1),
+                lp2 = "LP : " + str(leaguePoints2),
                 sN = "Summoner Name : " + summonerName,
                 gL = "Current Game Time : " + gameLength,
                 gM = "Map : " + gameMap,
