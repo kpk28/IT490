@@ -8,7 +8,7 @@
 </div>
 
 <p>
-	<h1>Player Data for {{playerName}}</h1>
+	<h1>TFT Player Data for {{playerName}}</h1>
 	{{playerDataError}}<br>{{pid}}<br>{{acctID}}<br>{{puid}}<br>{{level}}<br>
 	<br>
 	<h1>Ranked Data</h1>
@@ -25,6 +25,14 @@
 	{% endfor %}
 	</table>
 </p>
+
+<div>
+<a href="http://localhost:5000/league">Go to League Lookup</a>
+</div>
+
+<div>
+<a href="http://localhost:5000/tft">Go back to TFT Lookup</a>
+</div>
 
 {% endblock %}
 

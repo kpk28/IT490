@@ -4,11 +4,11 @@
 
 {% block content %}
 <div class="row">
-    <h2>TFT Lookup</h2>
+    <h2>League Lookup</h2>
 </div>
 
 <p>
-	<h1>Player Data for {{playerName}}</h1>
+	<h1>LoL Player Data for {{playerName}}</h1>
 	{{playerDataError}}<br>{{pid}}<br>{{acctID}}<br>{{puid}}<br>{{level}}<br>
 	<br>
 	<h1>Ranked Data</h1>
@@ -18,6 +18,14 @@
 	{{spectatorError}}<br>{{gM}}<br>{{gL}}<br>{{bT}}<br>{{rT}}<br>
 	<br>
 </p>
+
+<div>
+<a href="http://localhost:5000/league">Go back to League Lookup</a>
+</div>
+
+<div>
+<a href="http://localhost:5000/tft">Go to TFT Lookup</a>
+</div>
 
 {% endblock %}
 
