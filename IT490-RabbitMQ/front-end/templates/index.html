@@ -4,39 +4,17 @@
 
 {% block content %}
 <div class="row">
-    <h2>Welcome to the League of Legends API</h2>
-</div>
-<div class="row">
-    <a href="/secret">Here is a route that requires authentication.</a>
+    <h2>Riot API</h2>
 </div>
 
-<h2>Player Data</h2>
-<form method="post">
-    <label for="region">Region:</label>
-	<select name="region" id="region">
-		<option value ="NA1">NA1</option>
-		<option value="br1">BR1</option>
-		<option value="eun1">EUN1</option>
-		<option value="euw1">EUW1</option>
-		<option value="jp1">JP1</option>
-		<option value="kr1">KR1</option>
-		<option value ="LA1">LA1</option>
-		<option value ="LA2">LA2</option>
-		<option value ="OC1">OC1</option>
-		<option value ="RU">RU</option>
-		<option value ="TR1">TR1</option>
-	</select>
-    <div class="form-group">
-        <label for="player">Player Name</label>
-        <input type="player" required="required" name="player" class="form-control" id="player" placeholder="Enter Player Name">
-    </div>
-    <div class="form-group">
-        <label for="apikey">LoL API Key</label>
-        <input type="password" required="required" name="apikey" class="form-control" id="apikey" placeholder="Enter API Key">
-    </div>
-	<a href="https://developer.riotgames.com/">Click here to get your Riot API key.</a> <br> <br>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<h2>Choose a Game</h2>
+<div>
+<a href="http://localhost:5000/league">Go to League Lookup</a>
+</div>
+
+<div>
+<a href="http://localhost:5000/tft">Go to TFT Lookup</a>
+</div>
 
 {% endblock %}
 

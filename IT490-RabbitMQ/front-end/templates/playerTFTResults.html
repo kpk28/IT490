@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h2>TFT Lookup</h2>
+</div>
+
+<p>
+	<h1>Player Data for {{playerName}}</h1>
+	{{playerDataError}}<br>{{pid}}<br>{{acctID}}<br>{{puid}}<br>{{level}}<br>
+	<br>
+	<h1>Ranked Data</h1>
+	{{rankedError}}<br>{{tr1}} {{rk1}}<br>{{lp1}}
+	<br>
+	<h1>Most Recent Match</h1>
+	
+	<table>
+	{% for key, value in TFTParticipantAndChampions.items() %}
+		<tr>
+			<th> {{key}} </th>
+			<td> {{value}} </td>
+		</tr>
+	{% endfor %}
+	</table>
+</p>
+
+{% endblock %}
+
+
+
+
