@@ -3,17 +3,301 @@
 {% block title %}Welcome{% endblock %}
 
 {% block content %}
-<div class="row">
-    <h2>Riot API</h2>
-</div>
 
-<h2>Choose a Game</h2>
-<div>
-<a href="http://localhost:5000/league">Go to League Lookup</a>
-</div>
 
-<div>
-<a href="http://localhost:5000/tft">Go to TFT Lookup</a>
+    
+
+    <!DOCTYPE html> 
+    <html>
+        <head>
+            <style>
+
+
+
+
+body{
+	/* Setting the default text color, size, page background and a font stack: */
+	font-size:15px;
+	color:#fcfcfc;
+	background-color:#1f2020;
+	font-family:Arial, Helvetica, sans-serif;
+	background: url(https://cdn.hipwallpaper.com/i/48/29/32IiOT.jpg);
+	background-attachment: fixed;
+    height: 100%;
+    width: 100%;
+    background-blend-mode: hard-light;
+}
+
+
+
+a, a:visited {
+	color:#b0f1e3;
+	text-decoration:none;
+	outline:none;
+}
+
+a:hover{
+	text-decoration:underline;
+}
+
+a img{
+	border:none;
+}
+
+
+
+h1,h2,h3{
+	font-family:"Myriad Pro","Helvetica Neue",Helvetica,Arial,Sans-Serif;
+	
+}
+
+
+h3{
+	
+	font-family:apple-chancery,"Myriad Pro","Helvetica Neue",Helvetica,Arial,Sans-Serif;
+	line-height: 45px;
+    font-size: 2rem;
+    margin: 0;
+    display:inline;
+    color:rgb(228, 13, 13)
+    
+    
+}
+
+
+h2{
+	font-size:2.2em;
+	font-weight:normal;
+	letter-spacing:0.01em;
+	text-transform:uppercase;
+}
+
+p{
+	line-height:1.5em;
+	padding-bottom:1em;
+}
+
+.line{
+	
+	height:1px;
+	background-color:#24404c;
+	border-bottom:1px solid #416371;
+	margin:1em 0;
+	overflow:hidden;
+}
+
+article .line{
+	
+	background-color:#15242a;
+	border-bottom-color:#204656;
+	margin:1.3em 0;
+}
+
+footer .line{
+	margin:2em 0;
+}
+
+
+/*need it*/
+.clear:after{
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+nav{ padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    float:right;
+    display:inline;}
+
+nav ul li{
+	display:inline;
+}
+
+nav ul li a,
+nav ul{
+    position: auto;
+    display:inline;
+     list-style-type: none;
+ }
+ul li{
+    display: inline-flex;
+    
+}
+ul li a{
+    text-decoration: none;
+    color: rgb(97, 72, 72);
+    padding: 5px 20px;
+    border: 5px solid transparent;
+    font-size: 30px;
+    font-family: serif;
+    transition: 0.4s ease;
+    display:inline;
+    
+
+    
+    
+}
+ul li p{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    position: right;
+    color: lawngreen;
+}
+ ul li a:hover{
+        background-color: rgb(182, 166, 166);
+        color: #000;
+        
+    
+    }   
+ul li h4{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: inherit;
+    position: right;
+}
+
+nav ul li a:hover{
+	text-decoration:none;
+	background-color:#f0f0f0;
+}
+
+nav, article, nav ul li a,figure{
+	
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+}
+
+table, td, th {
+    border: 1px solid red;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+    
+    
+    color:#FFF;
+  }
+  
+  th {
+    height: 50px;
+    color: rgb(228, 208, 118); }
+td{
+    word-wrap: break-word;
+    color:blueviolet;
+    font-size: 25px;
+    font-weight: 100;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+
+
+article{
+	background-color:rgb(46, 46, 46);
+	margin:3em 0;
+	padding:20px;
+	
+	text-shadow:0 2px 0 black;
+}
+
+figure{
+	border:3px rgb(146, 235, 3);
+	float:right;
+	height:300px;
+	margin-left:15px;
+	overflow:hidden;
+	width:500px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+figure:hover{
+	-moz-box-shadow:0 0 2px #4D7788;
+	-webkit-box-shadow:0 0 2px #4D7788;
+	box-shadow:0 0 2px #4D7788;
+}
+
+figure img{
+	margin-left:-60px;
+}
+
+
+
+      
+            </style>
+        
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            
+            <title>Riot</title>
+            
+            <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+            
+          
+            
+        </head>
+        
+        <body>
+                        
+                       <h3> Riot Games Master yourself, master the enemy</h3>
+                 
+                                    
+                    <nav class="clear"> 
+                        <ul>
+                            <li><a href="http://localhost:5000/league">Go to League Lookup</a></li>
+                            <li><a href="http://localhost:5000/tft">Go to TFT Lookup</a></li>
+                            
+                            
+                        </ul>
+                    </nav>
+                
+             
+                
+                <section id="articles"> 
+    
+                    
+    
+                    <div class="line"></div>  
+                    
+                    <article id="article1"> 
+                        <h2>About Riot Games</h2>
+                        
+                        <div class="line"></div>
+                        
+                        <div class="articleBody clear">
+                        
+                            <figure> 
+                                <a ><img src="https://cdn.hipwallpaper.com/i/40/77/b8Vhqy.jpg" width="100%" height="100%" /></a>
+                            </figure>
+                            
+                            Riot Games was founded in 2006 to develop, publish, and support the most player-focused games in the world. In 2009, we released our debut title, League of Legends, to worldwide acclaim. League has gone on to be the most-played PC game in the world and a key driver of the explosive growth of esports. 
+
+ 
+
+As League enters its second decade, we’re continuing to evolve the game while delivering new experiences to players with Teamfight Tactics, Legends of Runeterra, VALORANT, League of Legends: Wild Rift, and multiple work-in-progress titles. We’re also expanding the world of Runeterra through multimedia projects across music, comic books, board games, and the upcoming animated series Arcane. </div>
+                    </article>
+                    
+            
+    
+                    </article>
+                    
+    
+    
+                </section>
+                
+    
+          
+                
+            </section> 
+            
+            
+        </body>
+    </html>
+    
 </div>
 
 {% endblock %}
